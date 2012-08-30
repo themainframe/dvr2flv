@@ -1,0 +1,7 @@
+dvr2flv is a web proxy frontend for H.264 Network DVRs that are compatible with the "mEye" iOS application.
+
+It currently supports:
+
+  * Connecting to the DVR and browsing footage by date.
+  * Transcoding footage to FLV for playing inside the Flowplayer flash video player.
+  * Movement detection indication for footage segments in the UI.
