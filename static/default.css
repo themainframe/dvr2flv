@@ -1,0 +1,95 @@
+div.middleiface {
+  margin: auto;
+  width: 500px;
+}
+
+body, h1, div, span {
+  
+	font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+  
+}
+
+h1 {
+	color: #c4c4c4;
+	padding-bottom: 12px;
+	border-bottom-style: solid;
+	border-bottom-color: #c8c8c8;
+	border-bottom-width: 2px;
+	font-size: 24px;
+}
+
+table.layout {
+	height: 100%;
+	width: 100%;
+}
+
+html {
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	margin: 0px;
+	height: 100%;
+	width: 100%;
+}
+
+td.label {
+	width: 200px;
+}
+
+tr.item {
+	height: 25px;
+}
+
+td.value {
+	width: 300px;
+}
+
+hr {
+	border-color: #d0d0d0;
+	border-width: 1px;
+	border-style: solid;
+	margin-top: 10px;
+}
+
+input.button {
+	font-size: larger;
+	float: right;
+}
+
+input {
+  font-size: 17px;
+  padding: 5px;
+}
+
+div.time {
+  padding: 2px 0px 2px 2px;
+  cursor: pointer;
+}
+
+div.alarm {
+  
+	background-color: #ff979f;
+  
+}
+
+div.loading {
+  background-image: url('../static/loader.gif') !important;
+  background-repeat: no-repeat;
+  background-position: center right;
+}
+
+div.ok {
+  background-image: url('../static/tick-circle.png');
+  background-repeat: no-repeat;
+  background-position: center right;
+}
+
+div.time:hover {
+  background-color: #efefef;
+}
+
+#times {
+  overflow: auto;
+}
