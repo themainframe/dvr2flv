@@ -93,3 +93,8 @@ div.time:hover {
 #times {
   overflow: auto;
 }
+
+.disabled {
+  color: #5d5d5d !important;
+  background-color: #dfdfdf !important;
+}

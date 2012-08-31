@@ -9,31 +9,36 @@
 		<script type="text/javascript" src="js/jquery-ui-1.8.22.custom.min.js"></script>
 		<script type="text/javascript" src="js/flowplayer-3.2.11.min.js"></script>
 		<script type="text/javascript">
-		
-		  $(function() {
 		  
 		  var session = '<?php print $_SESSION['id']; ?>';
+		  var clickItm = null;
+		  var sysBusy = false;
+		  		  		
+		  $(function() {
+
 		  
 		    $('.time').live('click', function() {
 		    
+		      if(sysBusy)
+		      {
+		        // "DVR BUSY NOW" :P
+		        return;
+		      }
+		    
 		      // Mark as loading
 		      $(this).addClass('loading');
-		      var clickItm = this;
+		      clickItm = this;
 		      $('#status').html('Getting & transcoding ' + $(this).html() + ' - this could take a while...');
-		    
+		      
+		      // Start watching filesize...
+		      start_progress_watchdog($(this).attr('file'));
+		      
 		      // Request to remux and display
-		      $.getJSON('ajax/download.ajax.php', {'file' : $(this).attr('file') }, function(data) {
-            
-            // Set file
-            flowplayer("player", "../dvr/js/flowplayer-3.2.14.swf", 
-              './cache/' + session + '/' + data.file);
-            
-            $(clickItm).removeClass('loading');
-            $(clickItm).addClass('ok');
-            
-            $('#status').html('Finished downloading & transcoding ' + $(clickItm).html());
-            
-		      });
+		      $.getJSON('ajax/download.ajax.php', {'file' : $(this).attr('file') }, function(data) { });
+		      sysBusy = true;
+		      
+		      $('.time').addClass('disabled');
+		      $('#date').attr('disabled', 'disabled');
 		    
 		    });
 		  
@@ -108,6 +113,56 @@
           });
         
         });
+		  }
+		  
+		  var watchdog = null;
+		  var watchdogFile = '';
+		  
+		  function start_progress_watchdog(file)
+		  {
+		    watchdog = setInterval(progress_watchdog, 500);
+        watchdogFile = file;
+		  }
+		
+		  function end_progress_watchdog()
+		  {
+		    clearInterval(watchdog);
+		  }
+		  
+		  function progress_watchdog()
+		  {
+		    $.getJSON('ajax/getstate.ajax.php', {'file': watchdogFile}, function(data) {
+		    
+		      if(data.progress == -1)
+		      {
+		        // Downloading
+		        $('#status').html('Downloading ' + $(clickItm).html() + ' (' + data.mbs + 'MB so far)...');
+		      }
+		      else if(data.progress >= 100)
+		      {
+		        // Done - show file 
+            flowplayer("player", "../dvr/js/flowplayer-3.2.14.swf", 
+              './cache/' + session + '/' + data.file);
+            
+            $(clickItm).removeClass('loading');
+            $(clickItm).addClass('ok');
+            
+            $('#status').html('Finished downloading & transcoding ' + $(clickItm).html());
+            
+            end_progress_watchdog();
+            
+            // Remove disabled mode
+            sysBusy = false;
+  		      $('.time').removeClass('disabled');
+  		      $('#date').removeAttr('disabled');
+		      }
+		      else
+		      {
+		        console.log('tcode: ' + data.file + ': ' + data.progress + '% complete');
+		        $('#status').html('Transcoding ' + $(clickItm).html() + ' - ' + data.progress.toString() + '% complete.');
+		      }
+		    
+		    });
 		  }
 		
 		</script>

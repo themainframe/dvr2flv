@@ -34,7 +34,7 @@ if(file_exists('../cache/' . $_SESSION['id'] . '/' . basename($file) . '.flv'))
 //
 // Kill the connection but continue loading
 //
-/*ob_end_flush(); 
+ob_end_flush(); 
 header('Connection: close'); 
 set_time_limit(0);
 ignore_user_abort(true); 
@@ -48,7 +48,7 @@ flush();
 // Reenable when jobs coded!
 
 session_write_close();
-*/
+
 
 // Start downloading
 dvr_save_file($file, '../cache/' . $_SESSION['id'] . '/' . 

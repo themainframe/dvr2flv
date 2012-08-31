@@ -84,7 +84,7 @@ switch($_GET['act'])
 }
 
 // does DVR session exist?
-if(!$_SESSION['id'] || !file_exists('cache/' . $_SESSION['id']))
+if(!$_SESSION['id'] || !file_exists('./cache/' . $_SESSION['id']))
 {
   // No.
   load_page('connect_form');
